@@ -7,19 +7,19 @@ Unofficial [investing.com](https://www.investing.com/) API. Written in Rust.
 ## Usage
 
 ```
-> ./investing-api
-investing-api 0.1.0
+> ./investing-api --help
+investing-api 0.2.0
 github.com/jerryshell/investing-api
 
 USAGE:
-    investing-api [OPTIONS] --id <ID> --start-date <START_DATE> --end-date <END_DATE>
+    investing-api [OPTIONS] --name <NAME> --start-date <START_DATE> --end-date <END_DATE>
 
 OPTIONS:
     -c, --sort-col <SORT_COL>        [default: date]
     -e, --end-date <END_DATE>        %m/%d/%Y
     -h, --help                       Print help information
-    -i, --id <ID>                    
-    -n, --interval <INTERVAL>        [default: Daily]
+    -i, --interval <INTERVAL>        [default: Daily]
+    -n, --name <NAME>                
     -o, --sort-ord <SORT_ORD>        [default: DESC]
     -s, --start-date <START_DATE>    %m/%d/%Y
     -V, --version                    Print version information
@@ -27,10 +27,10 @@ OPTIONS:
 
 ### Example
 
-Fetch `csi1000` data from 2022/01/01 to 2022/01/07
+Fetch `csi1000` data from `2022/01/01` to `2022/01/07`
 
 ```
-> ./investing-api --id 1171911 --start-date 01/01/2022 --end-date 01/20/2022
+> ./investing-api --name csi1000 --start-date 01/01/2022 --end-date 01/07/2022
 [
     DataItem {
         timestamp_sec: 1641513600,

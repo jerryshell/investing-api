@@ -10,6 +10,38 @@ pub struct DataItem {
     vol: i64,
 }
 
+fn get_chrome97_client() -> reqwest::Client {
+    reqwest::Client::builder()
+        .user_agent("Chrome/97")
+        .build()
+        .unwrap()
+}
+
+pub async fn fetch_id_by_name(name: &str) -> Result<String> {
+    let client = get_chrome97_client();
+    // let client = dbg!(client);
+
+    let url = format!("https://www.investing.com/indices/{}", name);
+    // let url = dbg!(url);
+
+    let response = client.get(url).send().await?;
+    // let response = dbg!(response);
+
+    let response_text = response.text().await?;
+    // let response_text = dbg!(response_text);
+
+    let id = response_text
+        .split_once("setTargeting(\"pair_id\", \"")
+        .unwrap()
+        .1
+        .split_once("\");googletag.pubads()")
+        .unwrap()
+        .0;
+    // let id = dbg!(id);
+
+    Ok(id.to_string())
+}
+
 pub async fn fetch_historical_data(
     id: &str,
     start_date: &str,
@@ -18,10 +50,7 @@ pub async fn fetch_historical_data(
     sort_col: &str,
     sort_ord: &str,
 ) -> Result<Vec<DataItem>> {
-    let client = reqwest::Client::builder()
-        .user_agent("Chrome/97")
-        .build()
-        .unwrap();
+    let client = get_chrome97_client();
     // let client = dbg!(client);
 
     let form_data = [

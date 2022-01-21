@@ -4,13 +4,13 @@ use clap::Parser;
 #[derive(Parser, Debug)]
 #[clap(about, version, author)]
 struct Args {
-    #[clap(short = 'i', long)]
-    id: String,
+    #[clap(short = 'n', long)]
+    name: String,
     #[clap(short = 's', long, help = "%m/%d/%Y")]
     start_date: String,
     #[clap(short = 'e', long, help = "%m/%d/%Y")]
     end_date: String,
-    #[clap(short = 'n', long, default_value = "Daily")]
+    #[clap(short = 'i', long, default_value = "Daily")]
     interval: String,
     #[clap(short = 'c', long, default_value = "date")]
     sort_col: String,
@@ -22,8 +22,11 @@ struct Args {
 async fn main() -> Result<()> {
     let args = Args::parse();
 
+    let id = investing_api::fetch_id_by_name(&args.name).await?;
+    // let id = dbg!(id);
+
     let data_item_vec = investing_api::fetch_historical_data(
-        &args.id,
+        &id,
         &args.start_date,
         &args.end_date,
         &args.interval,
@@ -33,7 +36,7 @@ async fn main() -> Result<()> {
     .await?;
     println!("{:#?}", data_item_vec);
 
-    let filename = format!("{}.csv", args.id);
+    let filename = format!("{}.csv", id);
     investing_api::write_to_csv(data_item_vec, &filename).await?;
 
     Ok(())
