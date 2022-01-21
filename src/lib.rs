@@ -165,7 +165,13 @@ pub async fn write_to_csv(data_item_vec: Vec<DataItem>, filename: &str) -> Resul
 }
 
 #[tokio::test]
-async fn run_fetch_historical_data() {
+async fn test_fetch_id_by_name() {
+    let id = fetch_id_by_name("csi1000").await.unwrap();
+    assert_eq!(id, "1171911");
+}
+
+#[tokio::test]
+async fn test_fetch_historical_data() {
     let data = fetch_historical_data(
         "1171911",
         "01/01/2022",
