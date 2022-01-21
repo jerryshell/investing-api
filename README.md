@@ -8,7 +8,7 @@ Unofficial [investing.com](https://www.investing.com/) API. Written in Rust.
 
 ```
 > ./investing-api --help
-investing-api 0.2.0
+investing-api 0.2.1
 github.com/jerryshell/investing-api
 
 USAGE:
@@ -65,10 +65,10 @@ Fetch [csi1000](https://www.investing.com/indices/csi1000) historical data from 
         vol: 223567,
     },
 ]
-write to csv...
+write to csi1000.csv ...
 
 > ls *.csv
-1171911.csv
+csi1000.csv
 ```
 
 ## License

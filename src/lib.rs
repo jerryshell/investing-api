@@ -142,7 +142,7 @@ pub async fn fetch_historical_data(
 }
 
 pub async fn write_to_csv(data_item_vec: Vec<DataItem>, filename: &str) -> Result<()> {
-    println!("write to csv...");
+    println!("write to {} ...", filename);
 
     let mut csv_writer = csv::Writer::from_path(filename)?;
 
