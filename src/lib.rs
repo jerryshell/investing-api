@@ -3,6 +3,10 @@ use anyhow::Result;
 #[derive(Debug)]
 pub struct DataItem {
     timestamp_sec: i64,
+    date_str: String,
+    date_y: i32,
+    date_m: i32,
+    date_d: i32,
     price: f32,
     open: f32,
     high: f32,
@@ -98,12 +102,22 @@ pub async fn fetch_historical_data(
 
         let timestamp_sec = info.get(0).unwrap();
         let timestamp_sec = timestamp_sec.to_string().parse::<i64>().unwrap();
-        // let timestamp_sec = chrono::NaiveDateTime::from_timestamp(timestamp_sec, 0);
-        // let timestamp_sec: chrono::DateTime<chrono::Utc> =
-        //     chrono::DateTime::from_utc(timestamp_sec, chrono::Utc);
-        // let timestamp_sec = timestamp_sec.format("%Y-%m-%d %H:%M:%S");
-        // let timestamp_sec = timestamp_sec.to_string();
         // let timestamp_sec = dbg!(timestamp_sec);
+
+        let naive_date_time = chrono::NaiveDateTime::from_timestamp(timestamp_sec, 0);
+        // let naive_date_time = dbg!(naive_date_time);
+
+        let date_str = naive_date_time.format("%Y/%m/%d").to_string();
+        // let date_str = dbg!(date_str);
+
+        let date_y = naive_date_time.format("%Y").to_string().parse().unwrap();
+        // let date_y = dbg!(date_y);
+
+        let date_m = naive_date_time.format("%m").to_string().parse().unwrap();
+        // let date_m = dbg!(date_m);
+
+        let date_d = naive_date_time.format("%d").to_string().parse().unwrap();
+        // let date_d = dbg!(date_d);
 
         let price = info.get(1).unwrap();
         let price = price.replace(",", "").parse::<f32>().unwrap();
@@ -127,6 +141,10 @@ pub async fn fetch_historical_data(
 
         let data_item = DataItem {
             timestamp_sec,
+            date_str,
+            date_y,
+            date_m,
+            date_d,
             price,
             open,
             high,
@@ -146,11 +164,26 @@ pub async fn write_to_csv(data_item_vec: Vec<DataItem>, filename: &str) -> Resul
 
     let mut csv_writer = csv::Writer::from_path(filename)?;
 
-    csv_writer.write_record(&["timestamp_sec", "price", "open", "high", "low", "vol"])?;
+    csv_writer.write_record(&[
+        "timestamp_sec",
+        "date_str",
+        "date_y",
+        "date_m",
+        "date_d",
+        "price",
+        "open",
+        "high",
+        "low",
+        "vol",
+    ])?;
 
     for data_item in data_item_vec.iter() {
         csv_writer.write_record(&[
             data_item.timestamp_sec.to_string(),
+            data_item.date_str.to_string(),
+            data_item.date_y.to_string(),
+            data_item.date_m.to_string(),
+            data_item.date_d.to_string(),
             data_item.price.to_string(),
             data_item.open.to_string(),
             data_item.high.to_string(),
