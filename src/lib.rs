@@ -159,7 +159,7 @@ pub async fn fetch_historical_data(
     Ok(data_item_vec)
 }
 
-pub async fn write_to_csv(data_item_vec: Vec<DataItem>, filename: &str) -> Result<()> {
+pub async fn write_to_csv(data_item_vec: &[DataItem], filename: &str) -> Result<()> {
     println!("write to {} ...", filename);
 
     let mut csv_writer = csv::Writer::from_path(filename)?;
@@ -197,23 +197,25 @@ pub async fn write_to_csv(data_item_vec: Vec<DataItem>, filename: &str) -> Resul
     Ok(())
 }
 
-#[tokio::test]
-async fn test_fetch_id_by_name() {
-    let id = fetch_id_by_name("csi1000").await.unwrap();
-    assert_eq!(id, "1171911");
-}
+mod tests {
+    #[tokio::test]
+    async fn test_fetch_id_by_name() {
+        let id = crate::fetch_id_by_name("csi1000").await.unwrap();
+        assert_eq!(id, "1171911");
+    }
 
-#[tokio::test]
-async fn test_fetch_historical_data() {
-    let data = fetch_historical_data(
-        "1171911",
-        "01/01/2022",
-        "01/20/2022",
-        "Daily",
-        "date",
-        "DESC",
-    )
-    .await
-    .unwrap();
-    assert_eq!(data.len(), 13);
+    #[tokio::test]
+    async fn test_fetch_historical_data() {
+        let data = crate::fetch_historical_data(
+            "1171911",
+            "01/01/2022",
+            "01/20/2022",
+            "Daily",
+            "date",
+            "DESC",
+        )
+        .await
+        .unwrap();
+        assert_eq!(data.len(), 13);
+    }
 }
