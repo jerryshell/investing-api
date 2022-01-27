@@ -197,6 +197,7 @@ pub async fn write_to_csv(data_item_vec: &[DataItem], filename: &str) -> Result<
     Ok(())
 }
 
+#[cfg(test)]
 mod tests {
     #[tokio::test]
     async fn test_fetch_id_by_name() {
