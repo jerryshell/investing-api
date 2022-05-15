@@ -8,7 +8,7 @@ Unofficial [investing.com](https://www.investing.com/) API. Written in Rust.
 
 ```
 > ./investing-api --help
-investing-api 0.2.1
+investing-api 0.2.2
 github.com/jerryshell/investing-api
 
 USAGE:
@@ -27,7 +27,7 @@ OPTIONS:
 
 ### Example
 
-Fetch [csi1000](https://www.investing.com/indices/csi1000) historical data from `2022/01/01` to `2022/01/07`
+Fetch [csi1000](https://www.investing.com/indices/csi1000) historical data from `01/01/2022` to `01/07/2022`
 
 ```
 > ./investing-api --name csi1000 --start-date 01/01/2022 --end-date 01/07/2022
