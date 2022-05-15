@@ -120,23 +120,23 @@ pub async fn fetch_historical_data(
         // let date_d = dbg!(date_d);
 
         let price = info.get(1).unwrap();
-        let price = price.replace(",", "").parse::<f32>().unwrap();
+        let price = price.replace(',', "").parse::<f32>().unwrap();
         // let price = dbg!(price);
 
         let open = info.get(2).unwrap();
-        let open = open.replace(",", "").parse::<f32>().unwrap();
+        let open = open.replace(',', "").parse::<f32>().unwrap();
         // let open = dbg!(open);
 
         let high = info.get(3).unwrap();
-        let high = high.replace(",", "").parse::<f32>().unwrap();
+        let high = high.replace(',', "").parse::<f32>().unwrap();
         // let high = dbg!(high);
 
         let low = info.get(4).unwrap();
-        let low = low.replace(",", "").parse::<f32>().unwrap();
+        let low = low.replace(',', "").parse::<f32>().unwrap();
         // let low = dbg!(low);
 
         let vol = info.get(5).unwrap();
-        let vol = vol.replace(",", "").parse::<i64>().unwrap();
+        let vol = vol.replace(',', "").parse::<i64>().unwrap();
         // let vol = dbg!(vol);
 
         let data_item = DataItem {
