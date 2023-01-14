@@ -25,7 +25,7 @@ pub async fn fetch_id_by_name(name: &str) -> Result<String> {
     let client = get_chrome97_client();
     // let client = dbg!(client);
 
-    let url = format!("https://www.investing.com/indices/{}", name);
+    let url = format!("https://www.investing.com/indices/{name}");
     // let url = dbg!(url);
 
     let response = client.get(url).send().await?;
@@ -95,16 +95,15 @@ pub async fn fetch_historical_data(
     for tr in tr_select {
         let info = tr
             .select(&td_selector)
-            .into_iter()
             .filter_map(|td| td.value().attr("data-real-value"))
             .collect::<Vec<&str>>();
         // let info = dbg!(info);
 
-        let timestamp_sec = info.get(0).unwrap();
+        let timestamp_sec = info.first().unwrap();
         let timestamp_sec = timestamp_sec.to_string().parse::<i64>().unwrap();
         // let timestamp_sec = dbg!(timestamp_sec);
 
-        let naive_date_time = chrono::NaiveDateTime::from_timestamp(timestamp_sec, 0);
+        let naive_date_time = chrono::NaiveDateTime::from_timestamp_opt(timestamp_sec, 0).unwrap();
         // let naive_date_time = dbg!(naive_date_time);
 
         let date_str = naive_date_time.format("%Y/%m/%d").to_string();
@@ -160,11 +159,11 @@ pub async fn fetch_historical_data(
 }
 
 pub async fn write_to_csv(data_item_vec: &[DataItem], filename: &str) -> Result<()> {
-    println!("write to {} ...", filename);
+    println!("write to {filename} ...");
 
     let mut csv_writer = csv::Writer::from_path(filename)?;
 
-    csv_writer.write_record(&[
+    csv_writer.write_record([
         "timestamp_sec",
         "date_str",
         "date_y",

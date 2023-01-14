@@ -34,7 +34,7 @@ async fn main() -> Result<()> {
         &args.sort_ord,
     )
     .await?;
-    println!("{:#?}", data_item_vec);
+    println!("{data_item_vec:#?}");
 
     let filename = format!("{}.csv", args.name);
     investing_api::write_to_csv(&data_item_vec, &filename).await?;

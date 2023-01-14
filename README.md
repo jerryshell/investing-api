@@ -1,8 +1,8 @@
 # Investing API
 
-Unofficial [investing.com](https://www.investing.com/) API. Written in Rust.
+**This project has been deprecated and archived.**
 
-🏗 **This project is still in the early stages of development.**
+Unofficial [investing.com](https://www.investing.com/) API. Written in Rust.
 
 ## Usage
 
